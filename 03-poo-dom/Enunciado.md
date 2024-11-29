@@ -15,3 +15,4 @@ Aplicar dos de las tres formas distintas de Poo
 ### Objetivo: Implementar una clase llamada cuenta bancaria, que tenga una propiedad privada llamada saldo, y que permita depositar una cantidad y retirar una cantidad siempre que se pueda.
 
 Genera en el DOM dos contenedores, uno para ingresar y otro para retirar dinero a traves de un radiobutton, y otro mostrar informacion de mi cuenta. Se empezara con una inserción del numero de cuenta y con un desplegable para alternar las opciones
+
