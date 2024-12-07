@@ -72,4 +72,19 @@ function renderCarrito(carrito) {
     .addEventListener("submit", agregarProductoHandler);
 }
 
+const manejarAccionesHandler = (event) => {
+  const indice = Number(event.target.dataset.id);
+  if (event.target.classList.contains("btn-borrar")) {
+    carrito.borrarProducto(indice);
+    renderListaCarrito();
+  }
+  if (event.target.classList.contains("btn-editar")) {
+    const newCantidad = prompt("Ingrese la nueva cantidad",carrito.productos[indice].cantidad);
+    carrito.editarProducto(indice, newCantidad);
+    renderListaCarrito();
+  }
+};
+
+document.addEventListener("click", manejarAccionesHandler);
+
 renderCarrito(carrito);
