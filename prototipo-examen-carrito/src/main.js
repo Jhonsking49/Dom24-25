@@ -20,7 +20,7 @@ const renderListaCarrito = () => {
       (producto, index) => `
       <li>
         ${producto.obtenerInfo()}
-        <button data-id="${index}" class="editar">Editar</button>
+        <button data-id="${index}" class="btn-editar">Editar</button>
         <button data-id="${index}" class="btn-borrar">Borrar</button>
       </li>
     `
@@ -30,19 +30,24 @@ const renderListaCarrito = () => {
 };
 
 const agregarProductoHandler = (event) => {
-  event.preventDefault();
-  const nombre = document.getElementById("nombre-producto").value.trim();
-  const cantidad = document.getElementById("cantidad-producto").value;
-  const precio = document.getElementById("precio-producto").value;
+  event.preventDefault(); // Evita el comportamiento por defecto del formulario.
 
-  if (nombre && cantidad >= 0 && precio >= 0) {
-    carrito.agregarProducto(nombre, cantidad, precio);
-    renderListaCarrito();
+  // Obtén los valores del formulario.
+  const nombre = document.getElementById("nombre-producto").value.trim();
+  const cantidad = parseInt(document.getElementById("cantidad-producto").value, 10);
+  const precio = parseFloat(document.getElementById("precio-producto").value);
+
+  // Valida los datos antes de procesarlos.
+  if (nombre && !isNaN(cantidad) && cantidad > 0 && !isNaN(precio) && precio > 0) {
+    carrito.agregarProducto(nombre, cantidad, precio); // Agrega el producto al carrito.
+    renderListaCarrito(); // Actualiza la lista visual.
+    document.getElementById("form-producto").reset(); // Limpia el formulario.
   } else {
-    alert("Por favor, rellena todos los campos correctamente.");
+    alert("Por favor, rellena todos los campos correctamente con valores válidos.");
   }
-  event.target.reset();
 };
+
+
 
 function renderCarrito(carrito) {
   const app = document.getElementById("app");
@@ -79,9 +84,16 @@ const manejarAccionesHandler = (event) => {
     renderListaCarrito();
   }
   if (event.target.classList.contains("btn-editar")) {
-    const newCantidad = prompt("Ingrese la nueva cantidad",carrito.productos[indice].cantidad);
-    carrito.editarProducto(indice, newCantidad);
-    renderListaCarrito();
+    const newCantidad = prompt(
+      "Ingrese la nueva cantidad",
+      carrito.productos[indice].cantidad
+    );
+    if (!isNaN(newCantidad) && newCantidad > 0) {
+      carrito.editarProducto(indice, Number(newCantidad));
+      renderListaCarrito();
+    } else {
+      alert("Por favor, ingresa un número válido.");
+    }
   }
 };
 
