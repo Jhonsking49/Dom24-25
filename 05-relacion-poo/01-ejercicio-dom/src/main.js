@@ -1,6 +1,5 @@
+import { ProductList } from "./components/ProductList";
 
-import { User } from "./helpers/script.js";
-
-let user = new User("Juan", "123456", "juan@gmail.com");
-user.login();
-
+const urlApi = "http://localhost:4000/products";
+const productList = new ProductList(urlApi);
+productList.init();
