@@ -1,0 +1,64 @@
+{
+  "destinations": [
+    {
+      "id": "1",
+      "name": "Tokyo",
+      "date": "2025-04-15",
+      "budget": 1200
+    },
+    {
+      "id": "2",
+      "name": "Paris",
+      "date": "2025-06-30",
+      "budget": 1500
+    },
+    {
+      "id": "3",
+      "name": "New York",
+      "date": "2025-09-12",
+      "budget": 2000
+    },
+    {
+      "id": "4",
+      "name": "Sydney",
+      "date": "2025-12-01",
+      "budget": 2500
+    },
+    {
+      "id": "5",
+      "name": "Barcelona",
+      "date": "2025-05-20",
+      "budget": 1800
+    },
+    {
+      "id": "6",
+      "name": "Dubai",
+      "date": "2025-08-25",
+      "budget": 3000
+    },
+    {
+      "id": "7",
+      "name": "Istanbul",
+      "date": "2025-03-14",
+      "budget": 1000
+    },
+    {
+      "id": "8",
+      "name": "Bali",
+      "date": "2025-11-05",
+      "budget": 2200
+    },
+    {
+      "id": "9",
+      "name": "Reykjavik",
+      "date": "2025-02-28",
+      "budget": 1700
+    },
+    {
+      "id": "10",
+      "name": "Venice",
+      "date": "2025-10-19",
+      "budget": 1300
+    }
+  ]
+}
