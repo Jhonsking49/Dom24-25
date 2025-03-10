@@ -1,39 +1,46 @@
 {
-    "products": [
-        {
-            "id": 1,
-            "name": "Camisa basica",
-            "price": 9.99,
-            "description": "Una camisa de estilo básico con una camiseta de color azul y rojo",
-            "category":"ropa"
-        },
-        {
-            "id": 2,
-            "name": "Camisa de estilo sport",
-            "price": 19.99,
-            "description": "Una camisa de estilo sport con una camiseta de color rojo y azul",
-            "category":"ropa"
-        },
-        {
-            "id": 3,
-            "name": "Camisa de estilo casual",
-            "price": 29.99,
-            "description": "Una camisa de estilo casual con una camiseta de color rojo y azul",
-            "category":"ropa"
-        },
-        {
-            "id": 4,
-            "name": "Camisa de estilo chic",
-            "price": 39.99,
-            "description": "Una camisa de estilo chic con una camiseta de color rojo y azul",
-            "category":"ropa"
-        },
-        {
-            "id": 5,
-            "name": "Camisa de estilo elegante",
-            "price": 49.99,
-            "description": "Una camisa de estilo elegante con una camiseta de color rojo y azul",
-            "category":"ropa"
-        }
-    ]
+  "products": [
+    {
+      "id": "1",
+      "name": "Camisa basica",
+      "price": 9.99,
+      "description": "Una camisa de estilo básico con una camiseta de color azul y rojo",
+      "category": "ropa"
+    },
+    {
+      "id": "2",
+      "name": "Camisa de estilo sport",
+      "price": 19.99,
+      "description": "Una camisa de estilo sport con una camiseta de color rojo y azul",
+      "category": "ropa"
+    },
+    {
+      "id": "3",
+      "name": "Camisa de estilo casual",
+      "price": 29.99,
+      "description": "Una camisa de estilo casual con una camiseta de color rojo y azul",
+      "category": "ropa"
+    },
+    {
+      "id": "4",
+      "name": "Camisa de estilo chic",
+      "price": 39.99,
+      "description": "Una camisa de estilo chic con una camiseta de color rojo y azul",
+      "category": "ropa"
+    },
+    {
+      "id": "5",
+      "name": "Camisa de estilo elegante",
+      "price": 49.99,
+      "description": "Una camisa de estilo elegante con una camiseta de color rojo y azul",
+      "category": "ropa"
+    },
+    {
+      "id": "144e",
+      "name": "Telefono",
+      "price": "200",
+      "description": "Es un telefono",
+      "category": "Electrónica"
+    }
+  ]
 }

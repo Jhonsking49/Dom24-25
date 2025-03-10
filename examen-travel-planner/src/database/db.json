@@ -2,9 +2,9 @@
   "destinations": [
     {
       "id": "1",
-      "name": "Tokyo",
-      "date": "2025-04-15",
-      "budget": 1200
+      "name":"Tokyo",
+      "date":"2025-12-01",
+      "budget": "1300"
     },
     {
       "id": "2",

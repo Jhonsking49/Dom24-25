@@ -33,7 +33,7 @@ const agregarProductoHandler = (event) => {
   event.preventDefault(); // Evita el comportamiento por defecto del formulario.
 
   // Obtén los valores del formulario.
-  const nombre = document.getElementById("nombre-producto").value.trim();
+  const nombre = document.getElementById("nombre-producto").value.trim(); 
   const cantidad = parseInt(document.getElementById("cantidad-producto").value, 10);
   const precio = parseFloat(document.getElementById("precio-producto").value);
 

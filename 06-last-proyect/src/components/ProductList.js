@@ -4,163 +4,125 @@ export class ProductList {
     constructor(apiurl) {
         this.#apiurl = apiurl;
         this.#products = [];
-        // donde renderizar
         this.appContainer = document.getElementById("app");
     }
-    // método para inicializar
+
     async init() {
         try {
             this.#products = await this.#fetchDataProducts();
             this.#renderProducts();
         } catch (error) {
-            this.renderError(error);
+            this.renderError(error.message);
         }
     }
 
-    // método privado para obtener los productos
     async #fetchDataProducts() {
         try {
             const response = await fetch(this.#apiurl);
-            if (!response.ok) {
-                throw new Error("Error al obtener los productos");
-            }
+            if (!response.ok) throw new Error("Error al obtener los productos");
             return await response.json();
         } catch (error) {
-            throw new Error("Error fetch data ", error);
+            throw new Error("Error en la solicitud de datos: " + error.message);
         }
     }
-    // método público para obtener los productos
+
     #renderProducts() {
         if (this.#products.length === 0) {
             this.renderError("No hay productos para mostrar");
+            return;
         }
-        const productsHTML = this.#products
-            .map((product, index) => {
-            return `
-            <div class="product-card" data-id="${index}">
-            <h3>${product.name}</h3>
-            <p>Precio: ${product.price}</p>
-            <p>Description: ${product.description}</p>
-            <p data-id="${index}">Categoria: ${product.category}</p>
+
+        const productsHTML = this.#products.map((product, index) => `
+            <div class="product-card" data-id="${product.id}">
+                <h3>${product.name}</h3>
+                <p>Precio: ${product.price}</p>
+                <p>Descripción: ${product.description}</p>
+                <p>Categoría: ${product.category}</p>
+                <button class="delete-btn" data-id="${product.id}">Eliminar</button>
+                <button class="edit-btn" data-id="${product.id}">Editar</button>
             </div>
-        `;
-            })
-            .join("");
+        `).join("");
     
         this.appContainer.innerHTML = `
-        <div class="product-list">
-        ${productsHTML}
-        </div>
+            <button id="add-product-btn">Añadir Producto</button>
+            <div class="product-list">${productsHTML}</div>
         `;
-    
-        // const myDiv=document.createElement("div");
-        // myDiv.className="product-list";
-        // myDiv.innerHTML=productsHTML;
-        // this.appContainer.appendChild(myDiv);
-    
-        const listaProductos = document.querySelector(".product-list");
-        console.log(listaProductos);
-        listaProductos.addEventListener("click", (e) => {
-            if (e.target.dataset.id) {
-            //poner de color verde la tarjeta
-            const productCard = document.querySelector(
-                `[data-id="${e.target.dataset.id}"]`
-            );
-            productCard.style.backgroundColor =
-                productCard.style.backgroundColor === "" ? "green" : "";
-            }
+
+        document.getElementById("add-product-btn").addEventListener("click", () => this.addProductPrompt());
+
+        document.querySelectorAll(".delete-btn").forEach(button => {
+            button.addEventListener("click", (e) => this.deleteProduct(e.target.dataset.id));
+        });
+
+        document.querySelectorAll(".edit-btn").forEach(button => {
+            button.addEventListener("click", (e) => this.editProduct(e.target.dataset.id));
         });
     }
 
     renderError(message) {
-        this.appContainer.innerHTML = `
-        <div class="error" >
-        <p>Error: ${message}</p>
-        </div>
-        `;
+        this.appContainer.innerHTML = `<div class="error"><p>Error: ${message}</p></div>`;
     }
 
     #validateData(product) {
-        const { name, price, description, category } = product;
-        if (!name || !price || !description || !category) {
-            return false;
-        }
-        return true;
+        return product.name && product.price && product.description && product.category;
     }
-    
-    // getter
-    get apiurl() {
-        return this.#apiurl;
-    }
-    
-    //setter
-    set addProduct(product) {
-        if (this.#validateData(product)) {
-            //AÑADIMOS EL PRODUCTO
-            // fecheamos en la api el producto
-            this.#opFetchProductData(product, "post");
-        } else {
+
+    async addProduct(product) {
+        if (!this.#validateData(product)) {
             throw new Error("Datos del producto incorrectos");
         }
+        await this.#opFetchProductData(product, "POST");
+        await this.init();
     }
-    deleteProduct(product) {
-        this.#opFetchProductData(product, "delete");
+
+    addProductPrompt() {
+        const name = prompt("Nombre del producto:");
+        const price = prompt("Precio del producto:");
+        const description = prompt("Descripción del producto:");
+        const category = prompt("Categoría del producto:");
+
+        const newProduct = { name, price, description, category };
+        if (!this.#validateData(newProduct)) {
+            alert("Datos inválidos");
+            return;
+        }
+
+        this.addProduct(newProduct);
     }
-    
-    // método para (post,patch,delete,put) productos
+
+    async deleteProduct(id) {
+        await this.#opFetchProductData({ id }, "DELETE");
+        await this.init();
+    }
+
+    async editProduct(id) {
+        const newName = prompt("Nuevo nombre del producto:");
+        const newPrice = prompt("Nuevo precio del producto:");
+        const newDescription = prompt("Nueva descripción:");
+        const newCategory = prompt("Nueva categoría:");
+
+        const updatedProduct = { id, name: newName, price: newPrice, description: newDescription, category: newCategory };
+        if (!this.#validateData(updatedProduct)) {
+            alert("Datos inválidos");
+            return;
+        }
+
+        await this.#opFetchProductData(updatedProduct, "PUT");
+        await this.init();
+    }
+
     async #opFetchProductData(product, method) {
         try {
-            switch (method) {
-            case "post":
-                const response = await fetch(this.#apiurl, {
-                method: "POST",
-                body: JSON.stringify(product),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                });
-                break;
-            case "delete":
-                const id = product.id;
-                const responseDelete = await fetch(`${this.#apiurl}/${id}`, {
-                method: "DELETE",
-                });
-                if (!responseDelete.ok) {
-                throw new Error("Error al obtener los productos");
-                }
-                console.log("Borrado Correctamente")
-                break;
-            case "put":
-                const responsePut = await fetch(`${this.#apiurl}/${product.id}`, {
-                method: "PUT",
-                body: JSON.stringify(product),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                });
-                break;
-            case "patch":
-                const responsePatch = await fetch(`${this.#apiurl}/${product.id}`, {
-                method: "PATCH",
-                body: JSON.stringify(product),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                });
-                break;
-            case "get":
-                const responseGet = await fetch(this.#apiurl);
-                if (!responseGet.ok) {
-                throw new Error("Error al obtener los productos");
-                }
-                return await response.json();
-                break;
-            default:
-                // pensar bien que hacer
-                break;
-            }
+            const options = {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: method !== "DELETE" ? JSON.stringify(product) : null
+            };
+            
+            const response = await fetch(`${this.#apiurl}${method !== "POST" ? `/${product.id}` : ""}`, options);
+            if (!response.ok) throw new Error("Error en la operación de productos");
         } catch (error) {
-            throw new Error("Error fetch data ", error);
+            throw new Error("Error en la operación: " + error.message);
         }
     }
 }
